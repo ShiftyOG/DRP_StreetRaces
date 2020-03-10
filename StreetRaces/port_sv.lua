@@ -1,17 +1,24 @@
 -- Helper function for getting player money
 function getMoney(source)
-    -- Add framework API's here (return large number by default)
-    return 1000000
+    local src = source
+    TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
+        TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+            return characterMoney.data[1].cash
+        end)
+    end)
 end
 
 -- Helper function for removing player money
 function removeMoney(source, amount)
-    -- Add framework API's here
+    local src = source
+    TriggerClientEvent("DRP_Core:Info", src, "StreetRaces", tostring("You have entered the street race!"), 2500, false, "leftCenter")
+    TriggerEvent("DRP_Bank:RemoveCashMoney", src, tonumber(amount))
 end
 
 -- Helper function for adding player money
 function addMoney(source, amount)
-    -- Add framework API's here
+    local src = source
+    TriggerEvent('DRP_Bank:AddCashMoney', src, tonumber(amount))
 end
 
 -- Helper function for getting player name
